@@ -1,5 +1,7 @@
 "use client";
+import { ModalResult } from "@/components/common";
 import { Layout } from "@/layout";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Overview() {
@@ -31,6 +33,21 @@ export default function Overview() {
         setData(initData);
       }
     }
+  };
+
+  const draw = {
+    hidden: { pathLength: 0, opacity: 0 },
+    visible: () => {
+      const delay = 0;
+      return {
+        pathLength: 1,
+        opacity: 1,
+        transition: {
+          pathLength: { delay, type: "spring", duration: 1.5, bounce: 0 },
+          opacity: { delay, duration: 0.01 },
+        },
+      };
+    },
   };
 
   useEffect(() => {
@@ -104,7 +121,7 @@ export default function Overview() {
           {data?.map((info, i) => (
             <div
               key={i}
-              className='bg-[#FFF] p-24 cursor-pointer hover:bg-slate-100 relative'
+              className='bg-[#FFF] p-24 cursor-pointer hover:bg-slate-100 relative flex  items-center justify-center'
               onClick={() => {
                 info === "" &&
                   setData(
@@ -116,42 +133,61 @@ export default function Overview() {
                 info === "" && setPieces(pieces === "x" ? "o" : "x");
               }}>
               {info === "x" ? (
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='300'
-                  height='300'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='#FF0000'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  className='absolute top-[-55px] left-[-55px]'>
-                  <path d='M18 6 6 18' />
-                  <path d='m6 6 12 12' />
-                </svg>
+                <motion.svg
+                  width='180'
+                  height='180'
+                  viewBox='0 0 180 180'
+                  initial='hidden'
+                  animate='visible'
+                  className={"h-min w-min absolute "}>
+                  <motion.line
+                    x1='20'
+                    y1='20'
+                    x2='160'
+                    y2='160'
+                    stroke='#FF0000'
+                    strokeWidth={10}
+                    variants={draw}
+                    custom={2}
+                  />
+                  <motion.line
+                    x1='20'
+                    y1='160'
+                    x2='160'
+                    y2='20'
+                    stroke='#FF0000'
+                    strokeWidth={10}
+                    variants={draw}
+                    custom={2.5}
+                  />
+                </motion.svg>
               ) : info === "o" ? (
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='200'
-                  height='200'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='#0000FF'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  className='absolute top-[-4px] left-[-4px]'>
-                  <circle cx='12' cy='12' r='10' />
-                </svg>
+                <motion.svg
+                  width='180'
+                  height='180'
+                  viewBox='0 0 180 180'
+                  initial='hidden'
+                  animate='visible'
+                  className={"h-min w-min absolute "}>
+                  <motion.circle
+                    cx='90'
+                    cy='90'
+                    r='80'
+                    stroke='#0000FF'
+                    fill='#FFFFFF00'
+                    variants={draw}
+                    strokeWidth={10}
+                    custom={2.5}
+                  />
+                </motion.svg>
               ) : (
                 ""
               )}
-              {/* <h1 className='absolute'>{info}</h1> */}
             </div>
           ))}
         </div>
       </div>
+      <ModalResult isOpen={false} />
     </Layout>
   );
 }

@@ -88,7 +88,7 @@ const Navbar: FC = () => {
     <nav
       className='w-full max-h-min px-1 flex flex-row items-center justify-between 
     overflow-clip gap-2 border-b-[0px] border-gray-300 absolute  
-    backdrop-filter backdrop-blur-lg  z-10'>
+    backdrop-filter backdrop-blur-lg z-2'>
       <div
         className='flex flex-col items-start space-y-[-10px] text-lg cursor-pointer  '
         onClick={() => {
